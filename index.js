@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 const Set = require("./schemas/setSchema");
@@ -54,15 +55,14 @@ app.post("/user/createUser", async (req, res) => {
     const result = await data.save();
     res.send(result);
 });
+
 main()
     .then(() => console.log("Connected to db"))
     .catch((err) => console.log(err));
 
 async function main() {
-    await mongoose.connect(
-        "mongodb+srv://stuart:password1234@prtracker.omiugdr.mongodb.net/?retryWrites=true&w=majority&appName=PRTRACKER"
-    );
+    await mongoose.connect(process.env.MONGO_CONNECTION);
 }
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+app.listen(process.env.PORT, () => {
+    console.log(`Server running on port ${process.env.PORT}`);
 });
